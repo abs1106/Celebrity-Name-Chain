@@ -33,7 +33,7 @@ import { useState } from 'react';
                     onIonInput = {(e) => setAnswer (e.detail.value ?? '')}
                 </IonInput>
 
-             <IonButton expand ="block" onclick= {handleSubmit}>
+             <IonButton expand ="block" onClick= {handleSubmit}>
              play game
              </IonButton>
 
