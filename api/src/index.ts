@@ -1,4 +1,12 @@
 import "dotenv/config";
+import { PrismaClient } from "./generated/prisma/client.js";
+import { PrismaPg } from "@prisma/adapter-pg";
+const adapter = new PrismaPg({
+  connectionString: process.env.DATABASE_URL,
+});
+const prisma = new PrismaClient({
+  adapter,
+});
 import express from "express";
 
 const app = express();
@@ -13,6 +21,26 @@ app.get("/health", (_req, res) => {
 
 // TODO: implement the game routes (see the project spec):
 //   POST /games          { roomCode, celebrity }          -> start a game
+app.post("/games", async (req, res) => {
+  try {
+    const roomCode = Math.floor(Math.random() * 10000); //generates a room code
+    const celeb_zero = "Mike Tyson"; //starting celeb
+
+    const game = await prisma.game.create({
+      data: {
+        room_code: roomCode.toString(),
+        current_celebrity: celeb_zero,
+      },
+    });
+    return res.json(game);
+
+  } catch (error) {
+    return res.status(500).json({
+      message: "Failed to create a game.",
+    });
+  }
+});
+
 //   GET  /games/:roomCode                                 -> most recent celebrity name
 //   POST /answers        { roomCode, username, answer }   -> submit an answer
 //
