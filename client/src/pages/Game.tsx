@@ -1,3 +1,5 @@
+
+
 import{
      IonButton,
      IonHeader, 
@@ -7,7 +9,13 @@ import{
      IonInput,
      } from '@ionic/react';
 import { useState } from 'react';
+import { useQuery } from '@tanstack/react-query';
 
+const API_URl = import.meta.env.VITE_API_URL ?? 'http/localhost:3000';
+interface Celebrity {
+    roomCode: string;
+    celebrity: string;
+}
      
      const Game: React.FC = () => { 
         const [answer, setAnswer] = useState('');
@@ -27,13 +35,13 @@ import { useState } from 'react';
 
              </IonHeader> 
 
-                <IonInput
+                <IonInput>
                     value = {answer}
                     placeholder = 'Enter an answer'
                     onIonInput = {(e) => setAnswer (e.detail.value ?? '')}
-                />
+                </IonInput>
 
-             <IonButton expand ="block" onClick={handleSubmit}>
+             <IonButton expand ="block" onclick= {handleSubmit}>
              play game
              </IonButton>
 
