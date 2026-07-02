@@ -1,8 +1,17 @@
 import{
-     IonButton, IonInput, IonHeader, IonTitle, IonToolbar, IonPage
-     } '@ionic/react'; 
+     IonButton,
+     IonHeader, 
+     IonTitle, 
+     IonToolbar, 
+     IonPage
+     } from '@ionic/react';
+import { useState } from 'react';
+
      
-     function game(){ 
+     const Game: React.FC = () => { 
+     const Game = () => { 
+        const [answer, setAnswer] = useState('');
+        
         return (
             
             <IonPage> 
@@ -11,10 +20,16 @@ import{
             <IonToolbar>
              <IonTitle> This is the game</IonTitle> 
              </IonToolbar> 
-             
+
              </IonHeader> 
+             <IonButton expand ="block" (click)="()">
+             play game
+             </IonButton>
+
              </IonPage> 
             
             );
          } 
-         export default game
+        }
+
+         export default Game
