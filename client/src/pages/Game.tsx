@@ -1,3 +1,5 @@
+
+
 import{
      IonButton,
      IonHeader, 
@@ -10,9 +12,9 @@ import { useState } from 'react';
 
      
      const Game: React.FC = () => { 
-     const Game = () => { 
         const [answer, setAnswer] = useState('');
         const handleSubmit = () => {
+            console.log(answer);
             setAnswer('')
         }
 
@@ -33,11 +35,17 @@ import { useState } from 'react';
                     onIonInput = {(e) => setAnswer (e.detail.value ?? '')}
                 </IonInput>
 
-             <IonButton expand ="block" onClick= {handleSubmit}>
+             <IonButton expand ="block" onclick= {handleSubmit}>
              play game
              </IonButton>
 
              </IonPage> 
+            
+            );
+         } 
+
+
+         export default Game
             
             );
          } 
