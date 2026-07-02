@@ -42,6 +42,19 @@ app.post("/games", async (req, res) => {
 });
 
 //   GET  /games/:roomCode                                 -> most recent celebrity name
+app.get(`games/:roomCode`, async (req, res) => {
+ try{
+  
+
+ }catch{
+
+ }
+
+
+});
+
+
+
 //   POST /answers        { roomCode, username, answer }   -> submit an answer
 //
 // To talk to the database, run `yarn prisma:migrate` first (generates the
