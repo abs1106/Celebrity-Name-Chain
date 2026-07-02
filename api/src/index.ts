@@ -62,8 +62,36 @@ app.get("/games/:roomCode", async (req, res) => {
 });
 
 
-
 //   POST /answers        { roomCode, username, answer }   -> submit an answer
+app.post("/games/:roomCode/answers", async (req, res) => {
+  const roomCode = req.params.roomCode; //gets the room code from the url
+  const username = req.body.username; //gets the username from the body
+  const answer = req.body.answer; //gets the answer from the body
+
+  const game = await prisma.game.findFirst({ //finds the game in the db
+    where: ({room_code: roomCode}), //with the room code
+  });
+
+  if (!game) { //if the game doesn't exist
+    return res.status(404).json({ //return a 404 error
+      message: "Game not found.",
+    });
+  }
+
+  const newAnswer = await prisma.answers.create({ //creates a new answer in the db
+    data: {
+      username: username, //with the username
+      answer: answer, //and the answer
+      game_id: game.id, //and the game id
+    },
+  });
+
+  return res.json(newAnswer); //returns the new answer to the user
+});
+
+
+
+
 //
 // To talk to the database, run `yarn prisma:migrate` first (generates the
 // client into src/generated/prisma), then wire it up with the pg adapter.
