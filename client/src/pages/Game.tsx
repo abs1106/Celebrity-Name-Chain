@@ -1,5 +1,3 @@
-
-
 import{
      IonButton,
      IonHeader, 
@@ -29,13 +27,13 @@ import { useState } from 'react';
 
              </IonHeader> 
 
-                <IonInput>
+                <IonInput
                     value = {answer}
                     placeholder = 'Enter an answer'
                     onIonInput = {(e) => setAnswer (e.detail.value ?? '')}
-                </IonInput>
+                />
 
-             <IonButton expand ="block" onclick= {handleSubmit}>
+             <IonButton expand ="block" onClick= {handleSubmit}>
              play game
              </IonButton>
 
@@ -47,8 +45,3 @@ import { useState } from 'react';
 
          export default Game
             
-            );
-         } 
-        }
-
-         export default Game
