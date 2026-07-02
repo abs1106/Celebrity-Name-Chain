@@ -3,7 +3,8 @@ import{
      IonHeader, 
      IonTitle, 
      IonToolbar, 
-     IonPage
+     IonPage,
+     IonInput,
      } from '@ionic/react';
 import { useState } from 'react';
 
@@ -11,7 +12,10 @@ import { useState } from 'react';
      const Game: React.FC = () => { 
      const Game = () => { 
         const [answer, setAnswer] = useState('');
-        
+        const handleSubmit = () => {
+            setAnswer('')
+        }
+
         return (
             
             <IonPage> 
@@ -22,7 +26,14 @@ import { useState } from 'react';
              </IonToolbar> 
 
              </IonHeader> 
-             <IonButton expand ="block" (click)="()">
+
+                <IonInput>
+                    value = {answer}
+                    placeholder = 'Enter an answer'
+                    onIonInput = {(e) => setAnswer (e.detail.value ?? '')}
+                </IonInput>
+
+             <IonButton expand ="block" onclick= {handleSubmit}>
              play game
              </IonButton>
 
