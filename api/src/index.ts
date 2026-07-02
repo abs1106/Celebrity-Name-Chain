@@ -42,20 +42,21 @@ app.post("/games", async (req, res) => {
 });
 
 //   GET  /games/:roomCode                                 -> most recent celebrity name
-app.get(`games/:roomCode`, async (req, res) => {
- try{ 
+app.get("/games/:roomCode", async (req, res) => {
   const roomCode = req.params.roomCode; //gets the room code from the url
-  const game = await prisma.game.findUnique({ //finds the game in the db
-    where: {
-      room_code: roomCode.toString(), //with the room code
-    
-
-    },
+  const game = await prisma.game.findFirst({ //finds the game in the db
+    where: ({room_code: roomCode}), //with the room code
   });
-  const userCeleb = 
 
+  if (!game) { //if the game doesn't exist
+    return res.status(404).json({ //return a 404 error
+      message: "Game not found.",
+    });
+  }
 
-}
+  return res.json({ //returns the current celebrity name to the user
+    current_celebrity: game.current_celebrity,
+  });
 
 
 });
