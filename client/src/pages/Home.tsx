@@ -2,13 +2,13 @@ import { IonContent, IonHeader, IonPage, IonTitle, IonToolbar } from '@ionic/rea
 
 const Home: React.FC = () => {
   return (
-    <IonPage>
-      <IonHeader>
+    <IonPage>  //is one screen of the app*
+      <IonHeader> //top navigation bar 
         <IonToolbar>
           <IonTitle>Celebrity Name Chain</IonTitle>
         </IonToolbar>
       </IonHeader>
-      <IonContent fullscreen>
+      <IonContent fullscreen> //where the user interacts 
         <p>Hello, world!</p>
       </IonContent>
     </IonPage>
