@@ -26,13 +26,13 @@ app.post("/games", async (req, res) => {
     const roomCode = Math.floor(Math.random() * 10000); //generates a room code
     const celeb_zero = "Mike Tyson"; //starting celeb
 
-    const game = await prisma.game.create({
+    const game = await prisma.game.create({ //adds data to the db
       data: {
-        room_code: roomCode.toString(),
+        room_code: roomCode.toString(), //with db varibale names
         current_celebrity: celeb_zero,
       },
     });
-    return res.json(game);
+    return res.json(game); //returns the room code and starting celebrity to user
 
   } catch (error) {
     return res.status(500).json({
@@ -43,12 +43,19 @@ app.post("/games", async (req, res) => {
 
 //   GET  /games/:roomCode                                 -> most recent celebrity name
 app.get(`games/:roomCode`, async (req, res) => {
- try{
-  
+ try{ 
+  const roomCode = req.params.roomCode; //gets the room code from the url
+  const game = await prisma.game.findUnique({ //finds the game in the db
+    where: {
+      room_code: roomCode.toString(), //with the room code
+    
 
- }catch{
+    },
+  });
+  const userCeleb = 
 
- }
+
+}
 
 
 });
