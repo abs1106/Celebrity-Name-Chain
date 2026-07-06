@@ -58,7 +58,7 @@ app.get("/games/:roomCode", async (req, res) => {
   }
 
   return res.json({ //returns the current celebrity name to the user
-    current_celebrity: game.current_celebrity,
+    current_celebrity: game.current_celebrity ,
   });
 
 
@@ -91,6 +91,15 @@ app.post("/games/:roomCode/answers", async (req, res) => {
         game_id: game.id,
       },
     });
+
+    const updatedGame = await prisma.game.update({
+      where: {
+        id: game.id,
+      },
+      data: {
+        current_celebrity: answer,
+      },
+    })
 
     return res.json(newAnswer);
   } catch (error) {
