@@ -47,4 +47,4 @@ Copy the ngrok URL and use it as the `VITE_API_URL` in the client.
 
 ## AI Use
 
-We used AI someplace to help us understand the project requirements, fix coding errors, and explain programming concepts. We reviewed and tested the code before adding it to the project.
+We used AI someplace to help us understand the project requirements, fix coding errors, and explain programming concepts. Also we researched and ask for help from TA for fixed some place.  We reviewed and tested the code before adding it to the project.
