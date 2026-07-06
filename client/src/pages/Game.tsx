@@ -15,8 +15,8 @@ const API_URL =
 const Game: React.FC = () => {
   const [answer, setAnswer] = useState("");
 
-  const roomCode = "1234"; // later this should come from the real game
-  const username = "saliou"; // later this should come from an input
+  const roomCode = "123"; 
+  const username = "ABC"; 
 
   const mutation = useMutation({
     mutationFn: async (answer: string) => {
