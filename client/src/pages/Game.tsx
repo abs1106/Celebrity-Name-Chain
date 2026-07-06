@@ -10,7 +10,13 @@ import { useState } from "react";
 import { useMutation } from '@tanstack/react-query';
 
 
+<<<<<<< HEAD
 const API_URL = import.meta.env.VITE_API_URL ?? "https://football-calamity-sensuous.ngrok-free.dev";
+=======
+
+
+const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
+>>>>>>> 916045f (game changes)
 
 interface Celebrity {
   roomCode: string;
@@ -22,16 +28,18 @@ const Game: React.FC = () => {
 
   const handleSubmit = () => {
     console.log(answer);
+    
     setAnswer("");
   };
   const mutation = useMutation({
-    onSuccess: (data) => {
-      console.log('Answer sent successfully!', data);
+    onSuccess: (answer) => {
+      console.log('Answer sent successfully!', answer);
     },
     onError: (error) => {
       console.error('Error sending Answer:', error);
     }
   });
+
 
 
   return (
