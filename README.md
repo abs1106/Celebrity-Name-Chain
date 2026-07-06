@@ -1,73 +1,50 @@
-# Celebrity Name Chain — Starter
+# Celebrity Name Chain
 
-Boilerplate for the **Celebrity Name Chain** full-stack group project
-(CityTech TTP 2026 Summer). See the
-[project spec](https://github.com/jonathan-chin/citytech-ttpr-2026-summer/blob/main/project_specs/celebrity-name-chain.md)
-for the game rules, routes, and requirements.
+This is a full-stack multiplayer game built with Ionic React, Express, Prisma, and PostgreSQL. One player creates a game room, and other players join the room to continue the celebrity name chain.
 
-```text
-├── api/     # Express + Prisma + PostgreSQL game server (TypeScript)
-├── client/  # Ionic React app (React Hook Form + TanStack Query)
-├── data/    # database dump (dump.sql) to share between teammates
-└── README.md
-```
+## Database
 
-## Using this repo
+Restore the `dump.sql` file from the `data` folder into PostgreSQL using pgAdmin.
 
-Click **"Use this template"** on GitHub (not Fork). **One** teammate creates
-the repo, then **adds the others as collaborators**. One team = one repo.
+## Environment Setup
 
-## Prerequisites
+Create a `.env` file in the `api` folder and add your `DATABASE_URL`.
 
-- **Node 22+** and **Yarn 4** (via Corepack: `corepack enable`)
-- **PostgreSQL** running locally
-- **ngrok** (only needed to play together across machines)
+Create a `.env` file in the `client` folder and add your `VITE_API_URL`.
 
-### Node version (nvm)
-
-Make sure you're on Node 22 before installing anything:
-
-```bash
-node --version        # check your current version
-nvm install 22        # install Node 22 (if you don't have it)
-nvm use 22            # use it in this shell
-nvm alias default 22  # optional: make Node 22 your default
-```
-
-## 1. API (backend)
+## Run the API
 
 ```bash
 cd api
 yarn install
-cp .env.example .env      # then edit .env (see below)
-yarn prisma:migrate       # create tables + generate the Prisma client
-yarn dev                  # http://localhost:3000  (GET /health -> { "ok": true })
+yarn prisma:migrate
+yarn dev
 ```
 
-**Edit `.env`** and set `DATABASE_URL` to your local PostgreSQL connection
-before running `yarn prisma:migrate`.
-
-More detail (scripts, Prisma 7 workflow) is in [`api/README.md`](api/README.md).
-
-## 2. Client (frontend)
+## Run the Client
 
 ```bash
 cd client
 yarn install
-cp .env.example .env      # then edit .env (see below)
-yarn dev                  # open the Ionic app in your browser (or: ionic serve)
+yarn dev
 ```
 
-**Edit `.env`** and set `VITE_API_URL` to point at your API (defaults to
-`http://localhost:3000`; use your ngrok URL when playing together).
+Open:
 
-## 3. Play together
+```text
+http://localhost:5175
+```
 
-Expose the API with ngrok and share the public URL; each player sets their
-client's `VITE_API_URL` to it:
+## Play Together
+
+Run the API first, then expose it with ngrok:
 
 ```bash
 ngrok http 3000
 ```
 
-Expose the **API**, never your database directly.
+Copy the ngrok URL and use it as the `VITE_API_URL` in the client.
+
+## AI Use
+
+We used AI someplace to help us understand the project requirements, fix coding errors, and explain programming concepts. We reviewed and tested the code before adding it to the project.
