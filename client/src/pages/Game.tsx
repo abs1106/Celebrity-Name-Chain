@@ -10,13 +10,10 @@ import { useState } from "react";
 import { useMutation } from '@tanstack/react-query';
 
 
-<<<<<<< HEAD
 const API_URL = import.meta.env.VITE_API_URL ?? "https://football-calamity-sensuous.ngrok-free.dev";
-=======
 
 
-const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
->>>>>>> 916045f (game changes)
+// const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
 
 interface Celebrity {
   roomCode: string;
@@ -27,18 +24,38 @@ const Game: React.FC = () => {
   const [answer, setAnswer] = useState("");
 
   const handleSubmit = () => {
-    console.log(answer);
-    
+    // console.log(answer);
+  mutation.mutate(answer);
     setAnswer("");
   };
   const mutation = useMutation({
-    onSuccess: (answer) => {
-      console.log('Answer sent successfully!', answer);
-    },
-    onError: (error) => {
-      console.error('Error sending Answer:', error);
+    mutationFn: async (answer: string) => {
+    const response = await fetch(`${API_URL}/answers`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify({
+        roomCode: "my roomCode",
+        answer: answer,
+      }),
+    });
+
+    if (!response.ok) {
+      throw new Error("Answer not allowed");
     }
-  });
+
+    return response.json();
+  },
+
+  onSuccess: (data) => {
+    console.log("Answer is successfully!", data);
+  },
+
+  onError: (error) => {
+    console.error("NOt able to send Answer:", error);
+  },
+});
 
 
 
@@ -66,3 +83,6 @@ const Game: React.FC = () => {
 };
 
 export default Game;
+
+
+
