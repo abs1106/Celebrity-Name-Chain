@@ -46,6 +46,9 @@ app.get("/games/:roomCode", async (req, res) => {
   const roomCode = req.params.roomCode; //gets the room code from the url
   const game = await prisma.game.findFirst({ //finds the game in the db
     where: ({room_code: roomCode}), //with the room code
+    include:{
+      answers: true, //includes the answers in the response
+    }
   });
 
   if (!game) { //if the game doesn't exist
