@@ -7,57 +7,50 @@ import {
   IonInput,
 } from "@ionic/react";
 import { useState } from "react";
-import { useMutation } from '@tanstack/react-query';
+import { useMutation } from "@tanstack/react-query";
 
-
-const API_URL = import.meta.env.VITE_API_URL ?? "https://football-calamity-sensuous.ngrok-free.dev";
-
-
-// const API_URL = import.meta.env.VITE_API_URL ?? "http://localhost:3000";
-
-interface Celebrity {
-  roomCode: string;
-  celebrity: string;
-}
+const API_URL =
+  import.meta.env.VITE_API_URL ?? "https://football-calamity-sensuous.ngrok-free.dev";
 
 const Game: React.FC = () => {
   const [answer, setAnswer] = useState("");
 
-  const handleSubmit = () => {
-    // console.log(answer);
-  mutation.mutate(answer);
-    setAnswer("");
-  };
+  const roomCode = "123"; 
+  const username = "ABC"; 
+
   const mutation = useMutation({
     mutationFn: async (answer: string) => {
-    const response = await fetch(`${API_URL}/answers`, {
-      method: "POST",
-      headers: {
-        "Content-Type": "application/json",
-      },
-      body: JSON.stringify({
-        roomCode: "my roomCode",
-        answer: answer,
-      }),
-    });
+      const response = await fetch(`${API_URL}/games/${roomCode}/answers`, {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          username: username,
+          answer: answer,
+        }),
+      });
 
-    if (!response.ok) {
-      throw new Error("Answer not allowed");
-    }
+      if (!response.ok) {
+        throw new Error("Answer not allowed");
+      }
 
-    return response.json();
-  },
+      return response.json();
+    },
 
-  onSuccess: (data) => {
-    console.log("Answer is successfully!", data);
-  },
+    onSuccess: (data) => {
+      console.log("Answer sent successfully!", data);
+    },
 
-  onError: (error) => {
-    console.error("NOt able to send Answer:", error);
-  },
-});
+    onError: (error) => {
+      console.error("Not able to send answer:", error);
+    },
+  });
 
-
+  const handleSubmit = () => {
+    mutation.mutate(answer);
+    setAnswer("");
+  };
 
   return (
     <IonPage>
@@ -73,16 +66,15 @@ const Game: React.FC = () => {
         onIonInput={(e) => setAnswer(e.detail.value ?? "")}
       />
 
-      <IonButton expand="block" onClick={handleSubmit}
-        disabled={mutation.isPending}>
-        Play Game
-        {mutation.isPending ? 'Sending...' : 'Sent'}
+      <IonButton
+        expand="block"
+        onClick={handleSubmit}
+        disabled={mutation.isPending}
+      >
+        {mutation.isPending ? "Sending..." : "Play Game"}
       </IonButton>
     </IonPage>
   );
 };
 
 export default Game;
-
-
-
