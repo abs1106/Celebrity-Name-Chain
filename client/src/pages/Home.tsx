@@ -1,7 +1,18 @@
 // this is a debug comment
+// this is a debug comment
 
 import React from "react";
-import {IonButton,IonContent,IonHeader,IonInput,IonItem,IonLabel,IonPage,IonTitle,IonToolbar,} from "@ionic/react";
+import {
+  IonButton,
+  IonContent,
+  IonHeader,
+  IonInput,
+  IonItem,
+  IonLabel,
+  IonPage,
+  IonTitle,
+  IonToolbar,
+} from "@ionic/react";
 
 import { Controller, useForm } from "react-hook-form";
 
@@ -18,14 +29,34 @@ const Home: React.FC = () => {
     },
   });
 
-  const onSubmit = (data: CreateGameForm) => {
-    console.log("Create Game:", data);
+  const onSubmit = async (data: CreateGameForm) => {
+    try {
+      const response = await fetch("http://localhost:3000/games", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(data),
+      });
 
-    // Later:
-    // POST /games
-    // Then navigate("/game")
+      const result = await response.json();
 
-    reset();
+      if (!response.ok) {
+        alert(result.message || "Failed to create game.");
+        return;
+      }
+
+      console.log("Game Created:", result);
+      alert("Game created successfully!");
+
+      // Later you can navigate to Game.tsx
+      // history.push("/game");
+
+      reset();
+    } catch (error) {
+      console.error(error);
+      alert("Server connection failed.");
+    }
   };
 
   return (
@@ -37,11 +68,9 @@ const Home: React.FC = () => {
       </IonHeader>
 
       <IonContent className="ion-padding">
-
         <h2>Create New Game</h2>
 
         <form onSubmit={handleSubmit(onSubmit)}>
-
           <Controller
             name="roomCode"
             control={control}
@@ -89,9 +118,7 @@ const Home: React.FC = () => {
           >
             Start Game
           </IonButton>
-
         </form>
-
       </IonContent>
     </IonPage>
   );
