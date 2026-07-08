@@ -23,11 +23,18 @@ const Game = () => {
   const [ answer, setAnswer ] = useState("")
   const [message, newMessage ] = useState("")
 }
-: React.FC = () => {
-  const [answer, setAnswer] = useState("");
+const{data} = useQuery <Celebrity>({
+  queryKey:[roomCode]
+  queryFn: () => {
+    const response = await fetch(`${API_URL}/games/${roomCode}`);
+          if (!response.ok) {
+        throw new Error("Answer not allowed");
+      }
 
-  const roomCode = "123"; 
-  const username = "ABC"; 
+     )
+      return response.json();
+
+
 
   const mutation = useMutation({
     mutationFn: async (answer: string) => {
@@ -42,11 +49,7 @@ const Game = () => {
         }),
       });
 
-      if (!response.ok) {
-        throw new Error("Answer not allowed");
-      }
 
-      return response.json();
     },
 
     onSuccess: (data) => {
@@ -89,3 +92,9 @@ const Game = () => {
 };
 
 export default Game;
+
+
+
+
+
+
