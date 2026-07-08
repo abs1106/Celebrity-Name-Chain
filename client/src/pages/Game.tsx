@@ -21,19 +21,17 @@ interface Celebrity {
 const Game = () => {
   const { roomCode } useParams < { roomCode: string }> (); 
   const [ answer, setAnswer ] = useState("")
-  const [message, newMessage ] = useState("")
-}
+
 const{data} = useQuery <Celebrity>({
   queryKey:[roomCode]
   queryFn: () => {
     const response = await fetch(`${API_URL}/games/${roomCode}`);
           if (!response.ok) {
-        throw new Error("Answer not allowed");
-      }
+        throw new Error("This answer is not allowed");
 
-     )
-      return response.json();
-
+          }},
+      return response.json()
+        });
 
 
   const mutation = useMutation({
@@ -41,19 +39,20 @@ const{data} = useQuery <Celebrity>({
       const response = await fetch(`${API_URL}/games/${roomCode}/answers`, {
         method: "POST",
         headers: {
-          "Content-Type": "application/json",
+           "Content-Type": "application/json",
         },
         body: JSON.stringify({
           username: username,
           answer: answer,
         }),
+          return response.json()
       });
 
 
     },
 
-    onSuccess: (data) => {
-      console.log("Answer sent successfully!", data);
+    onSuccess: (message) => {
+      console.log("This answer is good!", data);
     },
 
     onError: (error) => {
@@ -85,16 +84,11 @@ const{data} = useQuery <Celebrity>({
         onClick={handleSubmit}
         disabled={mutation.isPending}
       >
-        {mutation.isPending ? "Sending..." : "Play Game"}
+        {mutation.isPending ? "Sending" : "Play Game"}
       </IonButton>
     </IonPage>
   );
 };
 
 export default Game;
-
-
-
-
-
 
