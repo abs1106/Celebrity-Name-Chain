@@ -19,8 +19,9 @@ interface Celebrity {
 
 
 const Game = () => {
-  const { roomCode } useParams < { roomCode: string }> (); 
+  const { roomCode } = useParams < { roomCode: string }> (); 
   const [ answer, setAnswer ] = useState("")
+  const [ message, setMessage ] = useState("")
 
 const{data} = useQuery <Celebrity>({
   queryKey:[roomCode]
@@ -51,18 +52,18 @@ const{data} = useQuery <Celebrity>({
 
     },
 
-    onSuccess: (message) => {
-      console.log("This answer is good!", data);
+    onSuccess: (data) => {
+      setMessage (data.message || "Finished")
     },
 
-    onError: (error) => {
-      console.error("Not able to send answer:", error);
+    onError: () => {
+      setMessage("Answer is unable to go out:");
     },
   });
 
   const handleSubmit = () => {
-    mutation.mutate(answer);
-    setAnswer("");
+    mutation.mutate(message);
+    setMessage("");
   };
 
   return (
@@ -75,7 +76,7 @@ const{data} = useQuery <Celebrity>({
 
       <IonInput
         value={answer}
-        placeholder="Enter an answer"
+        placeholder="Name any celebrity in the world"
         onIonInput={(e) => setAnswer(e.detail.value ?? "")}
       />
 
@@ -84,7 +85,7 @@ const{data} = useQuery <Celebrity>({
         onClick={handleSubmit}
         disabled={mutation.isPending}
       >
-        {mutation.isPending ? "Sending" : "Play Game"}
+        {mutation.isPending ? "Sending have patients" : "Play Game"}
       </IonButton>
     </IonPage>
   );
