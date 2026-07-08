@@ -7,12 +7,23 @@ import {
   IonInput,
 } from "@ionic/react";
 import { useState } from "react";
-import { useMutation } from "@tanstack/react-query";
+import { useParams } from "react-router-dom";
+import { useMutation, useQuery } from "@tanstack/react-query";
 
-const API_URL =
-  import.meta.env.VITE_API_URL ?? "https://football-calamity-sensuous.ngrok-free.dev";
+const API_URL = import.meta.env.VITE_API_URL ?? "https://football-calamity-sensuous.ngrok-free.dev";
 
-const Game: React.FC = () => {
+interface Celebrity {
+  roomCode: string;
+  celebrity: string;
+}
+
+
+const Game = () => {
+  const { roomCode } useParams < { roomCode: string }> (); 
+  const [ answer, setAnswer ] = useState("")
+  const [message, newMessage ] = useState("")
+}
+: React.FC = () => {
   const [answer, setAnswer] = useState("");
 
   const roomCode = "123"; 
