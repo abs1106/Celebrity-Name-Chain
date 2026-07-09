@@ -8,8 +8,11 @@ const prisma = new PrismaClient({
   adapter,
 });
 import express from "express";
+import cors from "cors";
 
-const app = express();
+const app = express(); 
+
+app.use(cors());
 app.use(express.json());
 
 const PORT = process.env.PORT ?? 3000;
@@ -124,6 +127,12 @@ app.post("/games/:roomCode/answers", async (req, res) => {
         message: `Answer must start with "${requiredLetter}".`,
       });
     }
+ // ==========================
+    // Validating the answer to make
+    // sure its a real celebrity 
+    // with wiki api 
+    // ==========================
+
 
 
     // ==========================
