@@ -1,5 +1,5 @@
 
-
+// Used Ai for help in correcting errors and using useParams, useMutation, useQuery
 
 import {
   IonButton,
@@ -77,12 +77,12 @@ const Game = () => {
 
     mutation.mutate(answer);
   };
-
+// used AI message && 
   return (
     <IonPage>
       <IonHeader>
         <IonToolbar>
-          <IonTitle>This is the game</IonTitle>
+          <IonTitle>Do yo you think this is the game</IonTitle>
         </IonToolbar>
       </IonHeader>
 
