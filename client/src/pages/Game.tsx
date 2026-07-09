@@ -45,15 +45,21 @@ const{data} = useQuery <Celebrity>({
         body: JSON.stringify({
           username: username,
           answer: answer,
-        }),
+        
           return response.json()
+        }),
+          
       });
+      if (!response.ok) {
+        throw new Error("Not Here");}
+         return response.json()
 
 
     },
 
-    onSuccess: (data) => {
-      setMessage (data.message || "Finished")
+    onSuccess: () => {
+      setMessage("Finished!");
+      setAnswer("");
     },
 
     onError: () => {
@@ -62,9 +68,10 @@ const{data} = useQuery <Celebrity>({
   });
 
   const handleSubmit = () => {
-    mutation.mutate(message);
-    setMessage("");
-  };
+    if (!answer.trim()) {
+      setMessage("Enter an answer.");
+      return;
+    }
 
   return (
     <IonPage>
@@ -87,6 +94,12 @@ const{data} = useQuery <Celebrity>({
       >
         {mutation.isPending ? "Sending have patients" : "Play Game"}
       </IonButton>
+              {message && (
+          <IonText color="primary">
+            <p>{message}</p>
+          </IonText>
+        )}
+      </IonContent>
     </IonPage>
   );
 };
