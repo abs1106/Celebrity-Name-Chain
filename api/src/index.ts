@@ -35,13 +35,16 @@ app.post("/games", async (req, res) => {
     return res.json(game); //returns the room code and starting celebrity to user
 
   } catch (error) {
+
+    console.error(error);
+    
     return res.status(500).json({
       message: "Failed to create a game.",
     });
   }
 });
 
-//   GET  /games/:roomCode/updatedAns                                -> most recent celebrity name
+//   GET  /games/:roomCode/updatedAns -> most recent celebrity name
 app.get("/games/:roomCode/updatedAns", async (req, res) => {
   const roomCode = req.params.roomCode; //gets the room code from the url
   
@@ -56,14 +59,11 @@ app.get("/games/:roomCode/updatedAns", async (req, res) => {
     });
   }
 
-
   return res.json({ //returns the current celebrity name to the user
     current_celebrity: game.current_celebrity ,
   });
 
-
 });
-
 
 // POST /games/:roomCode/answers
 // Player submits their username and celebrity answer.
@@ -163,7 +163,6 @@ app.post("/games/:roomCode/answers", async (req, res) => {
     });
 
   } catch (error) {
-
     // ==========================
     // Handle unexpected server or
     // database errors.
