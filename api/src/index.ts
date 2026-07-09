@@ -15,7 +15,7 @@ app.use(express.json());
 const PORT = process.env.PORT ?? 3000;
 
 // Health check — confirms the server is running.
-app.get("/health", (_req, res) => {
+app.get("/health", (req, res) => {
   res.json({ ok: true });
 });
 
