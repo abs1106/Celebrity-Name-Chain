@@ -1,3 +1,6 @@
+
+
+
 import {
   IonButton,
   IonHeader,
@@ -5,6 +8,9 @@ import {
   IonToolbar,
   IonPage,
   IonInput,
+  IonText,
+  IonContent,
+  IonItem,
 } from "@ionic/react";
 import { useState } from "react";
 import { useParams } from "react-router-dom";
@@ -17,44 +23,40 @@ interface Celebrity {
   celebrity: string;
 }
 
-
 const Game = () => {
-  const { roomCode } = useParams < { roomCode: string }> (); 
-  const [ answer, setAnswer ] = useState("")
-  const [ message, setMessage ] = useState("")
+  const { roomCode } = useParams<{ roomCode: string }>();
+  const [answer, setAnswer] = useState("");
+  const [message, setMessage] = useState("");
 
-const{data} = useQuery <Celebrity>({
-  queryKey:[roomCode]
-  queryFn: () => {
-    const response = await fetch(`${API_URL}/games/${roomCode}`);
-          if (!response.ok) {
+  const { data } = useQuery<Celebrity>({
+    queryKey: [roomCode],
+    queryFn: async () => {
+      const response = await fetch(`${API_URL}/games/${roomCode}`);
+      if (!response.ok) {
         throw new Error("This answer is not allowed");
-
-          }},
-      return response.json()
-        });
-
+      }
+      return response.json();
+    },
+  });
 
   const mutation = useMutation({
     mutationFn: async (answer: string) => {
       const response = await fetch(`${API_URL}/games/${roomCode}/answers`, {
         method: "POST",
         headers: {
-           "Content-Type": "application/json",
+          "Content-Type": "application/json",
         },
         body: JSON.stringify({
-          username: username,
+          username: "ABC",
           answer: answer,
-        
-          return response.json()
         }),
-          
       });
+
       if (!response.ok) {
-        throw new Error("Not Here");}
-         return response.json()
+        throw new Error("Not Here");
+      }
 
-
+      return response.json();
     },
 
     onSuccess: () => {
@@ -73,6 +75,9 @@ const{data} = useQuery <Celebrity>({
       return;
     }
 
+    mutation.mutate(answer);
+  };
+
   return (
     <IonPage>
       <IonHeader>
@@ -81,28 +86,31 @@ const{data} = useQuery <Celebrity>({
         </IonToolbar>
       </IonHeader>
 
-      <IonInput
-        value={answer}
-        placeholder="Name any celebrity in the world"
-        onIonInput={(e) => setAnswer(e.detail.value ?? "")}
-      />
+      <IonContent>
+        <IonInput
+          value={answer}
+          placeholder="Name any celebrity in the world"
+          onIonInput={(e) => setAnswer(e.detail.value ?? "")}
+        />
 
-      <IonButton
-        expand="block"
-        onClick={handleSubmit}
-        disabled={mutation.isPending}
-      >
-        {mutation.isPending ? "Sending have patients" : "Play Game"}
-      </IonButton>
-              {message && (
+        <IonButton
+          expand="block"
+          onClick={handleSubmit}
+          disabled={mutation.isPending}
+        >
+          {mutation.isPending ? "Sending have patients" : "Play Game"}
+        </IonButton>
+
+        {message && (
           <IonText color="primary">
             <p>{message}</p>
           </IonText>
         )}
+
+        <IonItem routerLink="/Home">Home</IonItem>
       </IonContent>
     </IonPage>
   );
 };
 
 export default Game;
-
