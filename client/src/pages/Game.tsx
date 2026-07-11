@@ -31,7 +31,7 @@ const Game = () => {
   const { data } = useQuery<Celebrity>({
     queryKey: [roomCode],
     queryFn: async () => {
-      const response = await fetch(`${API_URL}/games/${roomCode}`);
+      const response = await fetch(`${API_URL}/games/${roomCode}/updatedAns`);
       if (!response.ok) {
         throw new Error("This answer is not allowed");
       }
