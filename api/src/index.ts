@@ -47,26 +47,35 @@ app.post("/games", async (req, res) => {
   }
 });
 
-//   GET  /games/:roomCode/updatedAns -> most recent celebrity name
 app.get("/games/:roomCode/updatedAns", async (req, res) => {
-  const roomCode = req.params.roomCode; //gets the room code from the url
-  
-  const game = await prisma.game.findFirst({ //finds the game in the db
-    where:{
-      room_code: roomCode}, //with the room code
-  });
+  try {
+    const roomCode = req.params.roomCode;
 
-  if (!game) { //if the game doesn't exist
-    return res.status(404).json({ //return a 404 error
-      message: "Game not found.",
+    const game = await prisma.game.findFirst({
+      where: {
+        room_code: roomCode,
+      },
+    });
+
+    if (!game) {
+      return res.status(404).json({
+        message: "Game not found.",
+      });
+    }
+
+    return res.json({
+      current_celebrity: game.current_celebrity,
+    });
+  } catch (error) {
+    console.error(error);
+
+    return res.status(500).json({
+      message: "Failed to retrieve the current celebrity.",
     });
   }
-
-  return res.json({ //returns the current celebrity name to the user
-    current_celebrity: game.current_celebrity ,
-  });
-
 });
+
+
 
 // POST /games/:roomCode/answers
 // Player submits their username and celebrity answer.
@@ -77,8 +86,8 @@ app.post("/games/:roomCode/answers", async (req, res) => {
     // Retrieve user input
     // ==========================
     const roomCode = req.params.roomCode;
-    const username = req.body.username;
-    const answer = req.body.answer;
+    const username = req.body.username?.trim();
+    const answer = req.body.answer?.trim();
 
     // ==========================
     // Validate required input
@@ -132,9 +141,31 @@ app.post("/games/:roomCode/answers", async (req, res) => {
     // sure its a real celebrity 
     // with wiki api 
     // ==========================
+    const encodedAnswer = encodeURIComponent(answer);
+    const wikiResponse = await fetch(`https://en.wikipedia.org/w/api.php?action=opensearch&search=${encodedAnswer}&limit=1&format=json`);
 
+    if (!wikiResponse.ok) {
+  return res.status(500).json({
+    message: "Wikipedia API failed.",
+  });
+}
+    const wikiData = (await wikiResponse.json()) as [
+  string,
+  string[],
+  string[],
+  string[]
+];
 
+  const returnedName = wikiData[1][0];
 
+if (
+  !returnedName ||
+  returnedName.toLowerCase() !== answer.trim().toLowerCase()
+) {
+  return res.status(400).json({
+    message: "Celebrity not found.",
+  });
+}
     // ==========================
     // Save the player's answer
     // into the answers table.
